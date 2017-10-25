@@ -2,8 +2,8 @@
 
 Cell& Grid2D::operator()(int i, int j)
 {
-    assert(i >= 0 && i < m_rows && "Row index is out of range");
-    assert(j >= 0 && j < m_columns && "Column index is out of range");
+    //assert(i >= 0 && i < m_rows && "Row index is out of range");
+    //assert(j >= 0 && j < m_columns && "Column index is out of range");
 
 
     // Since there is a boundary/halo all indexing need to be shifted.
@@ -36,8 +36,8 @@ const Cell& Grid2D::operator()(int i, int j) const
 }
 
 
-Grid2D::Grid2D(int rows, int columns, double density): m_rows(rows), 
-                                                       m_columns(columns)
+Grid2D::Grid2D(int rows, int columns, double density, std::default_random_engine &generator): m_rows(rows), 
+                                                                                              m_columns(columns)
 {
     /**
      *
@@ -66,8 +66,7 @@ Grid2D::Grid2D(int rows, int columns, double density): m_rows(rows),
 
     // Create the pseudo random number generation to use with the density to determine which cells are filled.
 
-    unsigned int seed = static_cast<unsigned int>(std::chrono::system_clock::now().time_since_epoch().count());
-    std::default_random_engine generator(seed);
+    
     std::uniform_real_distribution<double> acceptance_distribution(0.0, 1.0); 
     
      
@@ -78,11 +77,11 @@ Grid2D::Grid2D(int rows, int columns, double density): m_rows(rows),
         {
                
 
-            if(acceptance_distribution(generator) < density)
+            if(acceptance_distribution(generator) > density)
             {
 
             // The state of the cell is then set using the operator() overload since this ensures the indexing is correct and consistent. 
-            (*this)(i,j).setState(Cell::Full);
+            ((*this)(i,j)).setState(Cell::Empty);
             }
         }
     }
@@ -334,27 +333,26 @@ int Grid2D::update()
     {
         for(int j = 0; j < m_columns; ++j)
         {
-            // Much cleaner to create a cell to hold the current cell.
-            Cell currentCell = (*this)(i,j);
+            
 
-            if(Cell::Empty == currentCell.getState())
+            if(Cell::Empty == (*this)(i,j).getState())
             {
-                oldValue = currentCell.getValue();
+                oldValue = (*this)(i,j).getValue();
 
 
                 // Check above.
-                currentCell.setValue((*this)(i-1,j).getValue() > (*this)(i,j).getValue() ? (*this)(i-1,j).getValue() : (*this)(i,j).getValue());
+                (*this)(i,j).setValue((*this)(i-1,j).getValue() > (*this)(i,j).getValue() ? (*this)(i-1,j).getValue() : (*this)(i,j).getValue());
 
                 // Check below.
-                currentCell.setValue((*this)(i+1,j).getValue() > (*this)(i,j).getValue() ? (*this)(i+1,j).getValue() : (*this)(i,j).getValue()); 
+                (*this)(i,j).setValue((*this)(i+1,j).getValue() > (*this)(i,j).getValue() ? (*this)(i+1,j).getValue() : (*this)(i,j).getValue()); 
 
                 // Check the left.
-                currentCell.setValue((*this)(i,j-1).getValue() > (*this)(i,j).getValue() ? (*this)(i,j-1).getValue() : (*this)(i,j).getValue()); 
+                (*this)(i,j).setValue((*this)(i,j-1).getValue() > (*this)(i,j).getValue() ? (*this)(i,j-1).getValue() : (*this)(i,j).getValue()); 
 
                 // Check the right.
-                currentCell.setValue((*this)(i,j+1).getValue() > (*this)(i,j).getValue() ? (*this)(i,j+1).getValue() : (*this)(i,j).getValue());
+                (*this)(i,j).setValue((*this)(i,j+1).getValue() > (*this)(i,j).getValue() ? (*this)(i,j+1).getValue() : (*this)(i,j).getValue());
 
-                if(currentCell.getValue() != oldValue)
+                if((*this)(i,j).getValue() != oldValue)
                 {
                     ++cellsChanged;
                 } 
@@ -384,4 +382,32 @@ bool Grid2D::test()
     }
 
     return false;
+}
+
+std::ostream& operator<<(std::ostream& out, const Grid2D& grid)
+{
+    for(int i = 0; i < grid.getRows(); ++i)
+    {
+        for(int j = 0; j < grid.getColumns(); ++j)
+        {
+            out << static_cast<int>(grid(i,j).getState()) << ' ';
+        }
+
+        out << std::endl;
+    }
+    return out;
+}
+
+
+void Grid2D::printValues()
+{
+    for(int i = 0; i < m_rows; ++i)
+    {
+        for(int j = 0; j < m_columns; ++j)
+        {
+            std::cout << static_cast<int>((*this)(i,j).getValue()) << ' ';
+        }
+
+        std::cout << std::endl;
+    }
 }

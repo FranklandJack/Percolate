@@ -18,6 +18,10 @@
 #include <cassert>
 
 
+/// For ouput stream operator overloading.
+#include <iostream>
+
+
 /**
  *
  * \class Grid2D
@@ -83,6 +87,21 @@ class Grid2D
         */
         const Cell& operator()(int i, int j) const;
 
+        /**
+         * 
+         * \brief Operator overload for printing the grid to output stream.
+         *
+         * Needs to be overloaded as a friend function since its left operand is not (*this)
+         *
+         * \param out std::ostream reference which the grid will be streamed into.
+         *
+         * \param grid const Grid2D reference that is the grid being outputed. 
+         *
+         * \return std:ostream reference to the input ostream so that output can be chained.
+         *
+         */
+        friend std::ostream& operator<<(std::ostream& out, const Grid2D& grid);
+
 
 
 
@@ -101,7 +120,7 @@ class Grid2D
          *
          * \param density Floating point value between 0 and 1 representing the density of filled squares within the grid.
          */
-        Grid2D(int rows, int columns, double density);
+        Grid2D(int rows, int columns, double density, std::default_random_engine &generator);
 
 
         /**
@@ -226,6 +245,15 @@ class Grid2D
          *
          */
         bool test();
+
+
+        /**
+         *
+         * \brief Prints the value at each cell after they have been initialised.
+         *
+         *
+         */
+         void printValues(); 
 
 
 
