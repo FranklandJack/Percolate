@@ -46,6 +46,18 @@ class Cell
 
         /*
          *
+         * \brief Creates Cell from a State and value.
+         *
+         *
+         * \param state enumeration State value to be copied into m_state, defaults to full.
+         *
+         * \param value Integer value to be copied into m_value, defaults to zero.
+         *
+         */
+        Cell(State state = Full, int value = 0);
+
+        /*
+         *
          * \brief Getter for state of cell.
          *
          * \return const State enumeration type reference representing state of cell.
@@ -80,8 +92,8 @@ class Cell
          * \param value integer representing value accociated to the cell to be set.
          *
          */
-        void setValue(State state);
+        void setValue(int value);
 
 
-}       
+};      
 #endif /* Cell_hpp */

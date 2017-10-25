@@ -1,8 +1,22 @@
 #ifndef Grid2D_hpp
 #define Grid2D_hpp
 
+
 /// For the cells in the array.
 #include "Cell.hpp"
+
+
+/// For seeding pseudo random numbers.
+#include <chrono>
+
+
+/// For generating psuedo random numbers.
+#include <random>
+
+
+/// For bounds checking.
+#include <cassert>
+
 
 /**
  *
@@ -41,7 +55,7 @@ class Grid2D
         *
         * By overloading the () operator we are able to access elements of the m_cellArray as if they were 
         * members of a 2D array rather than a 1-D one. This conceptually simplifies the code were specific 
-        * cells are accessed. the indexing system (i,j) follows that of a matrix.
+        * cells are accessed. the indexing system (i,j) follows that of a matrix starting from 0.
         * 
         * \param i Integer value representing the the row to be accessed.
         * 
@@ -87,7 +101,7 @@ class Grid2D
          *
          * \param density Floating point value between 0 and 1 representing the density of filled squares within the grid.
          */
-        Cell(int rows, int columns, double density);
+        Grid2D(int rows, int columns, double density);
 
 
         /**
@@ -100,7 +114,7 @@ class Grid2D
          * \param sourceGrid constant Grid2D reference instance to be copied from. 
          *
          */
-        Cell(const Grid2D &sourceGrid);
+        Grid2D(const Grid2D &sourceGrid);
 
 
         /**
@@ -114,7 +128,7 @@ class Grid2D
          * member variables memory. 
          *
          */
-        Cell(Grid2D &&sourceGrid);
+        Grid2D(Grid2D &&sourceGrid);
 
 
         /**
@@ -129,7 +143,7 @@ class Grid2D
          * \return Grid2D reference corresponding to *this so assignment operations can be chained together.
          *
          */
-        Cell& operator=(const Grid2D &sourceGrid);
+        Grid2D& operator=(const Grid2D &sourceGrid);
 
 
         /**
@@ -145,7 +159,7 @@ class Grid2D
          * \return Grid2D reference corresponding to *this so assignment operations can be chained together. 
          *
          */
-        Cell& operator=(Grid2D &&sourceGrid);
+        Grid2D& operator=(Grid2D &&sourceGrid);
 
 
         /**
@@ -153,7 +167,7 @@ class Grid2D
          * \brief Destructor for grid must be explicitly implemented since there is dynamic memory assignemnt. 
          *
          */
-        ~Grid();
+        ~Grid2D();
 
 
         /**
@@ -204,6 +218,10 @@ class Grid2D
          *
          * \brief Tests to see whether precolation has occured. 
          *
+         * If perculation has occured there will be a cluster with that reaches from the top to the bottom of the Grid.
+         * Since we know that each cluster has the same number accociated to each of its cells after the updates have stopped
+         * we can just check whether any of the cells in the last row have the same accociated number as any in the first row.  
+         *
          * \return Boolean representing whether preculation has occured. True if percolated, false otherwise. 
          *
          */
@@ -217,6 +235,6 @@ class Grid2D
 
 
 
-}
+};
 
 #endif /* Grid2D_hpp */
