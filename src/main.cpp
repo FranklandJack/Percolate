@@ -41,7 +41,7 @@ int main(int argc, char const *argv[])
 
 
     // Value to hold the number of trial grids that sucessfully percolate. 
-    int percolations;
+    int percolations = 0;
 
 
     // Generate the given number of grids and if they sucessfully percolate we record it.
@@ -50,8 +50,9 @@ int main(int argc, char const *argv[])
     {
 
     Grid2D myGrid(rows, columns, density, generator);
+    
 
-    while(myGrid.update())
+    while(myGrid.update()){}
     
     if(myGrid.test()) 
     {

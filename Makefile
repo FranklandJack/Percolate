@@ -11,14 +11,14 @@ EXE_FILE=Percolate
 all : $(EXE_FILE)
 
 $(EXE_FILE) : $(OBJ_FILES)
-	g++ $^ -o $@
+	g++ $^ -pg -o $@
 
 ## objs      : create object files
 .PHONY : objs
 objs : $(OBJ_FILES)
 
 %.o : $(SRC_DIR)/%.cpp
-	g++ -c -std=c++11 $<
+	g++ -pg -c -std=c++11 $<
 
 
 
