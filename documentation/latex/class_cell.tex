@@ -1,0 +1,49 @@
+\hypertarget{class_cell}{}\section{Cell Class Reference}
+\label{class_cell}\index{Cell@{Cell}}
+
+
+{\ttfamily \#include $<$Cell.\+hpp$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_cell_a21d74a2efcb79c93e5649b06a50b7cf5}{State} \{ {\bfseries Full}, 
+{\bfseries Empty}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_cell_a863f7e7c3721ae17caa74eb8f68e6b82}\label{class_cell_a863f7e7c3721ae17caa74eb8f68e6b82}} 
+{\bfseries Cell} (\hyperlink{class_cell_a21d74a2efcb79c93e5649b06a50b7cf5}{State} state=Full, int value=0)
+\item 
+\mbox{\Hypertarget{class_cell_a9d4d744e2f7405eab6259b564dd37908}\label{class_cell_a9d4d744e2f7405eab6259b564dd37908}} 
+const \hyperlink{class_cell_a21d74a2efcb79c93e5649b06a50b7cf5}{State} \& {\bfseries get\+State} () const
+\item 
+\mbox{\Hypertarget{class_cell_a09df2b33dfc3866456d076c37723a4c4}\label{class_cell_a09df2b33dfc3866456d076c37723a4c4}} 
+int {\bfseries get\+Value} () const
+\item 
+\mbox{\Hypertarget{class_cell_a927a3e5932063a24c00a750dddf66443}\label{class_cell_a927a3e5932063a24c00a750dddf66443}} 
+void {\bfseries set\+State} (\hyperlink{class_cell_a21d74a2efcb79c93e5649b06a50b7cf5}{State} state)
+\item 
+\mbox{\Hypertarget{class_cell_a9b58034e57c99329a534189428882e0e}\label{class_cell_a9b58034e57c99329a534189428882e0e}} 
+void {\bfseries set\+Value} (int value)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A cell is considered as an element of a grid. Each cell is either full or empty. If it is empty then it has a uniquie number acciocated to it that is updated when we test for percolation. 
+
+\subsection{Member Enumeration Documentation}
+\mbox{\Hypertarget{class_cell_a21d74a2efcb79c93e5649b06a50b7cf5}\label{class_cell_a21d74a2efcb79c93e5649b06a50b7cf5}} 
+\index{Cell@{Cell}!State@{State}}
+\index{State@{State}!Cell@{Cell}}
+\subsubsection{\texorpdfstring{State}{State}}
+{\footnotesize\ttfamily enum \hyperlink{class_cell_a21d74a2efcb79c93e5649b06a50b7cf5}{Cell\+::\+State}}
+
+Enumerated data type for whether a cell is full or empty Full=0, and Empty=1. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/Cell.\+hpp\item 
+src/Cell.\+cpp\end{DoxyCompactItemize}

@@ -1,40 +1,73 @@
-# Makefile for the Percolate project
+# Makefile for the 2D-Pred-Prey Simulation
 
 SRC_DIR=src
-
+HEADERS=$(wildcard $(SRC_DIR)/*.hpp)
 SRC_FILES=$(wildcard $(SRC_DIR)/*.cpp)
 OBJ_FILES=$(patsubst $(SRC_DIR)/%.cpp, %.o, $(SRC_FILES))
-EXE_FILE=Percolate
 
-## all       : Compile code and create executible 
-.PHONY : all
-all : $(EXE_FILE)
 
-$(EXE_FILE) : $(OBJ_FILES)
-	g++ $^ -o $@
+TEST_DIR=test
+TEST_HEADERS=$(wildcard $(TEST_DIR)/*.hpp)
+TEST_SRC_FILES=$(wildcard $(TEST_DIR)/*.cpp)
+TEST_OBJ_FILES=$(patsubst $(TEST_DIR)/%.cpp, %.o, $(TEST_SRC_FILES))
+
+CXX=c++
+CPPSTD=-std=c++11 
+DEBUG=-g
+CPPUNITLDFLAGS=-lcppunit
+INC=-I$(SRC_DIR) -I$(TEST_DIR) -I$(HOME)/include
+
+EXE_FILE=predprey
+EXE_TEST=predprey-cppunittests
+
+
+$(EXE_FILE): $(OBJ_FILES) 
+	$(CXX) $(CPPSTD) $(DEBUG) -o $@  $^ 
+
+$(EXE_TEST): $(TEST_OBJ_FILES) Cell.o Grid2D.o
+	$(CXX) $(CPPSTD) $(DEBUG) -o $@  $^ $(INC) $(CPPUNITLDFLAGS) 
 
 ## objs      : create object files
 .PHONY : objs
-objs : $(OBJ_FILES)
+objs : $(OBJ_FILES) $(TEST_OBJ_FILES)
 
-%.o : $(SRC_DIR)/%.cpp
-	g++ -c -std=c++11 $<
+%.o : $(SRC_DIR)/%.cpp $(HEADERS)
+	$(CXX) $(CPPSTD) $(DEBUG) -c $< -o $@ $(INC)
 
+%.o : $(TEST_DIR)/%.cpp $(TEST_HEADERS)
+	$(CXX) $(CPPSTD) $(DEBUG) -c $< -o $@ $(INC) 
+
+
+## test    : create and run unit tests
+.PHONY : test
+test : predprey-cppunittests
+	./$<
 
 
 ## clean     : remove auto generated files
 .PHONY : clean
 clean :
 	rm -f $(OBJ_FILES)
+	rm -f $(TEST_OBJ_FILES)
+
 	rm -f $(EXE_FILE)
+	rm -f $(EXE_TEST)
+
+	rm -f $(OUT_FILES)
+	rm -f $(DAT_FILES)
+	rm -f TestResults.xml
 
 ## variables : Print variables
 .PHONY :variables
 variables:
-	@echo SRC_DIR:   $(SRC_DIR)
-	@echo SRC_FILES: $(SRC_FILES)
-	@echo OBJ_FILES: $(OBJ_FILES)
-	
+	@echo SRC_DIR:        $(SRC_DIR)
+	@echo SRC_FILES:      $(SRC_FILES)
+	@echo OBJ_FILES:      $(OBJ_FILES)
+
+	@echo TEST_DIR:       $(TEST_DIR)
+	@echo TEST_SRC_FILES: $(TEST_SRC_FILES)
+	@echo TEST_OBJ_FILES: $(TEST_OBJ_FILES)
+
 
 
 ## help      : Print help

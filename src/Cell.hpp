@@ -5,6 +5,7 @@
  *
  * \class Cell
  *
+ *
  * A cell is considered as an element of a grid. Each cell is either full or empty. 
  * If it is empty then it has a uniquie number acciocated to it that is updated when 
  * we test for percolation.
