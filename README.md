@@ -18,10 +18,10 @@ Initially this will only be for 2D grids. Once this is working and tested I will
 - To build run:  ```$ make```.
 - To run run: ```$ ./percolate  r c d n```.
 where: 
-1. r = number of rows.
-2. c = number of columns.
-3. d = density of grid (0 < d < 1).
-4. n = number of trail grids to check percolation for at specified density.
+	1. r = number of rows.
+	2. c = number of columns.
+	3. d = density of grid (0 < d < 1).
+	4. n = number of trail grids to check percolation for at specified density.
 
 - To build and run tests run:  ```$ make test ```.
 - For a full list of make functionality run: ```$ make help ```.
@@ -33,8 +33,8 @@ The executable will print the probability of percolating through a grid of the s
 
 ## Progress
 - [x] source code
-- [ ] bash tool
-- [ ] plot tool
+- [x] bash tool
+- [x] plot tool
 - [x] make file
 - [ ] unit tests
 - [ ] continuous integration
