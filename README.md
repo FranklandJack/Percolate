@@ -21,8 +21,7 @@ Initially this will only be for 2D grids. Once this is working and tested I will
 - To run:
 
 	1. To run for a single density run any combination of: ```$ ./percolate  -r #rows -c #columns -d density -n #trials```
-	and
-	```$ ./percolate  --row-count #rows --column-count #columns --density density --trial-count #trials``` where if any command line argument is not specified then the default values below will be used:  
+	and ```$ ./percolate  --row-count #rows --column-count #columns --density density --trial-count #trials``` where if any command line argument is not specified then the default values below will be used:  
 		1 #rows = 10
 		2. #columns = 10
 		3. density = 0.5
