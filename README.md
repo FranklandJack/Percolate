@@ -1,4 +1,5 @@
 # Percolate
+[![Build Status](https://travis-ci.org/FranklandJack/Percolate.svg?branch=master)](https://travis-ci.org/FranklandJack/Percolate)
 Program to calculate the probability of percolating through a grid of a given size and density.
 
 
@@ -21,14 +22,11 @@ Initially this will only be for 2D grids. Once this is working and tested I will
 
 	1. To run for a single density run any combination of: ```$ ./percolate  -r #rows -c #columns -d density -n #trials```
 	and
-	```$ ./percolate  --row-count #rows --column-count #columns --density density --trial-count #trials```
-
-		where: 
-			If any command line argument is not specified then the default values below will be used:
-				+. #rows = 10
-				+. #columns = 10
-				+. density = 0.5
-				+. #trials = 100
+	```$ ./percolate  --row-count #rows --column-count #columns --density density --trial-count #trials``` where if any command line argument is not specified then the default values below will be used:
+		1 #rows = 10
+		2. #columns = 10
+		3. density = 0.5
+		4. #trials = 100
 
 	2. To run for a range of densities run: ```$ make range MIN=minimum MAX=maximum INC=increment TRI=#trials ROWS=#rows COLS=#columns```  
 
