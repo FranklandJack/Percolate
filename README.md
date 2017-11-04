@@ -23,8 +23,8 @@ where:
 3. d = density of grid (0 < d < 1).
 4. n = number of trail grids to check percolation for at specified density.
 
-- To build and run tests run:  ```$ make test ```
-- For a full list of make functionality run: ```$ make help ```
+- To build and run tests run:  ```$ make test ```.
+- For a full list of make functionality run: ```$ make help ```.
 - To generate documentation run: ```$ doxygen Doxyfile ```.
 
 
