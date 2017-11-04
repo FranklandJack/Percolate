@@ -14,15 +14,15 @@ TEST_OBJ_FILES=$(patsubst $(TEST_DIR)/%.cpp, %.o, $(TEST_SRC_FILES))
 CXX=c++
 CPPSTD=-std=c++11 
 DEBUG=-g
-CPPUNITLDFLAGS=-lcppunit
-INC=-I$(SRC_DIR) -I$(TEST_DIR) -I$(HOME)/include
+CPPUNITLDFLAGS=-lcppunit -lboost_program_options
+INC=-I$(SRC_DIR) -I$(TEST_DIR) -I$(HOME)/include 
 
-EXE_FILE=predprey
-EXE_TEST=predprey-cppunittests
+EXE_FILE=percolate
+EXE_TEST=percolate-cppunittests
 
 
 $(EXE_FILE): $(OBJ_FILES) 
-	$(CXX) $(CPPSTD) $(DEBUG) -o $@  $^ 
+	$(CXX) $(CPPSTD) $(DEBUG) -o $@  $^ $(CPPUNITLDFLAGS) 
 
 $(EXE_TEST): $(TEST_OBJ_FILES) Cell.o Grid2D.o
 	$(CXX) $(CPPSTD) $(DEBUG) -o $@  $^ $(INC) $(CPPUNITLDFLAGS) 
@@ -43,6 +43,12 @@ objs : $(OBJ_FILES) $(TEST_OBJ_FILES)
 test : predprey-cppunittests
 	./$<
 
+## range    : calculate probability of percolation for a range of values with a specified increment size and grid size.
+.PHONY : range
+range : $(EXE_FILE)
+	./generatedata.sh -m $(MIN) -M $(MAX) -i $(INC) -r $(ROWS) -c $(COLS) -n $(TRI) -p ./$(EXE_FILE)
+
+
 
 ## clean     : remove auto generated files
 .PHONY : clean
@@ -53,8 +59,7 @@ clean :
 	rm -f $(EXE_FILE)
 	rm -f $(EXE_TEST)
 
-	rm -f $(OUT_FILES)
-	rm -f $(DAT_FILES)
+	
 	rm -f TestResults.xml
 
 ## variables : Print variables

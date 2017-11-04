@@ -1,74 +1,99 @@
 #include "Grid2D.hpp"
 #include <iostream>
-#include <chrono>
-#include <random>
-#include <fstream>
+#include <chrono>   
 #include <sstream>
+#include <boost/program_options.hpp>
+
+namespace po = boost::program_options;
+using namespace std;
 
 int main(int argc, char const *argv[])
 {
-    auto start = std::chrono::system_clock::now();
+    /*************************************************************************************************************************
+     ************************************************* Preparations **********************************************************
+     *************************************************************************************************************************/
 
+    // Start the clock so execution time can be calculated. 
+    auto start = chrono::system_clock::now();
+
+    // Seed the pseudo random number generator using the system clock.
     unsigned int seed = static_cast<unsigned int>(std::chrono::system_clock::now().time_since_epoch().count());
-    std::default_random_engine generator(seed);
+
+    // Create a generator that can be fed to any distribution to produce pseudo random numbers according to that distribution. 
+    default_random_engine generator(seed);
 
 
-    // The parameters for the grid will be read from the file which is provided as the first command line argument.
-    std::ifstream oscillatorParameters(argv[1]);
-    
-    // Check we have sucessfully opened the file. 
-    if(!oscillatorParameters)
-    {
-        std::cerr << argv[1] << " could not be opened for reading" <<std::endl;
-    }
-    
-    // First line in file should be the number of rows, the second the columns, the third the density.
-    int rows, columns;
-    double density; 
+    /*************************************************************************************************************************
+     ******************************************************** Input **********************************************************
+     *************************************************************************************************************************/
 
-    oscillatorParameters >> rows >> columns >> density;
-    
-    // The number of trials for this run of the program should be the second command line argument.
-    std::istringstream ss(argv[2]);
+    // Value to hold the number of rows in the grid.
+    int rowCount;
 
-    int trials;
+    // Value to hold the number of columns in the grid.
+    int colCount;
 
-    if(!(ss >> trials))
-    {
-        std::cerr << "invalid trial number: " << argv[3] << std::endl;
-        exit(1);
-    }
+    // Value to hold the specified density of the grid.
+    double density;
+
+    // Value to hold the number of percolation trials.
+    int triCount;
+
+    // Set up optional command line argument.
+    po::options_description desc("Options for percolation test program");
+
+    desc.add_options()
+        // Option 'row-number' and 'r' are equivalent.
+        ("row-count,r", po::value<int>(&rowCount)->default_value(100), "The number of rows")
+        // Option 'col-number' and 'c' are equivalent.
+        ("col-count,c", po::value<int>(&colCount)->default_value(100), "The number of columns")
+        // Option 'density' and 'd' are equivalent.
+        ("density,d", po::value<double>(&density)->default_value(0.5), "The density of grid")
+        // Option 'trial-number' and 'n' are equivalent.
+        ("trial-count,n", po::value<int>(&triCount)->default_value(1000), "The number of trials");
+
+    po::variables_map vm;
+    po::store(po::parse_command_line(argc,argv,desc), vm);
+    po::notify(vm);
 
 
-    // Value to hold the number of trial grids that sucessfully percolate. 
+    /*************************************************************************************************************************
+     ********************************************** Algorithm Stage **********************************************************
+     *************************************************************************************************************************/
+
+
+    // Value to hold the number of trial grids that successfully percolate. 
     int percolations = 0;
 
-
-    // Generate the given number of grids and if they sucessfully percolate we record it.
-
-    for(int iteratrion = 0; iteratrion < trials; ++iteratrion)
+    // Generate the given number of grids and if they successfully percolate we record it.
+    for(int trial = 0; trial < triCount; ++trial)
     {
-
-    Grid2D myGrid(rows, columns, density, generator);
+        // Construct a new random grid on each trial.
+        Grid2D myGrid(rowCount, colCount, density, generator);
     
-
-    while(myGrid.update()){}
-    
-    if(myGrid.test()) 
-    {
-        ++percolations;
+        // Update the grid until it has finished. 
+        while(myGrid.update()){}
+        
+        // If the grid percolates it is recorded. 
+        if(myGrid.test()) 
+        {
+            ++percolations;
+        }
     }
-    }
+
+    // Monte-Carlo estimate on the probability of percolation.
+    double probablity = static_cast<double>(percolations)/triCount;
 
 
-    double probablity = static_cast<double>(percolations)/trials;
+    /*************************************************************************************************************************
+     ****************************************************** Output  **********************************************************
+     *************************************************************************************************************************/
     
-    std::cout << "The probablity of percolating for a " << rows << " x " << columns << " grid with density " 
-    << density << " is " << probablity << std::endl;
+    cout << probablity << endl;
 
-    auto end = std::chrono::system_clock::now();
-    auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-    std::cout << "Time take to execute (us):   " << elapsed.count() << std::endl << std::endl; 
+    auto end = chrono::system_clock::now();
+    auto elapsed = chrono::duration_cast<chrono::microseconds>(end - start);
+    //cout << "Time take to execute (us):   " << elapsed.count() << endl << endl; 
     
 
     return 0;

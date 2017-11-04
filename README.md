@@ -30,3 +30,12 @@ where:
 
 ## Output
 The executable will print the probability of percolating through a grid of the specified size and density. 
+
+## Progress
+- [x] source code
+- [ ] bash tool
+- [ ] plot tool
+- [x] make file
+- [ ] unit tests
+- [ ] continuous integration
+- [x] documentation
