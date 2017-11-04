@@ -40,7 +40,7 @@ objs : $(OBJ_FILES) $(TEST_OBJ_FILES)
 
 ## test    : create and run unit tests
 .PHONY : test
-test : predprey-cppunittests
+test : $(EXE_TEST)
 	./$<
 
 ## range    : calculate probability of percolation for a range of values with a specified increment size and grid size.

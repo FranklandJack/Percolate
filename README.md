@@ -1,5 +1,5 @@
 # Percolate
-Programs to calculate the probability of percolating through a grid of a given size and density.
+Program to calculate the probability of percolating through a grid of a given size and density.
 
 
 ## Introduction
@@ -16,12 +16,28 @@ Initially this will only be for 2D grids. Once this is working and tested I will
 ## Instructions 
 
 - To build run:  ```$ make```.
-- To run run: ```$ ./percolate  r c d n```.
-where: 
-	1. r = number of rows.
-	2. c = number of columns.
-	3. d = density of grid (0 < d < 1).
-	4. n = number of trail grids to check percolation for at specified density.
+
+- To run:
+
+	1. To run for a single density run any combination of: ```$ ./percolate  -r #rows -c #columns -d density -n #trials```
+	and
+	```$ ./percolate  --row-count #rows --column-count #columns --density density --trial-count #trials```
+
+		where: 
+			If any command line argument is not specified then the default values below will be used:
+			1. #rows = 10
+			2. #columns = 10
+			3. density = 0.5
+			4. #trials = 100
+
+	2. To run for a range of densities run: ```$ make range MIN=minimum MAX=maximum INC=increment TRI=#trials ROWS=#rows COLS=#columns```  
+
+		or  any combination of:
+
+		```$ \generatedata.sh -m minimum -M maximum -r #rows -c #columns -n #trials -i increment -p ./percolate``` 
+		and 
+		```$ \generatedata.sh --minimum minimum -maximum maximum --row-count #rows --column-count #columns --trial-count 		
+			#trials --increment increment --percolate ./percolate``` 
 
 - To build and run tests run:  ```$ make test ```.
 - For a full list of make functionality run: ```$ make help ```.
@@ -29,7 +45,10 @@ where:
 
 
 ## Output
-The executable will print the probability of percolating through a grid of the specified size and density. 
+1. Running the first executable will output the Monte Carlo estimate of the probability of percolating through a grid of the specified size and density to the command line.
+
+2. Running the second option will output the Monte Carlo estimate of the probability of percolating through a grid of the specified size and density for all values between minimum and maximum incremented by the provided increment to the command line.
+The plot of density vs. probability can then be visualised by putting the standard output into a file ```$ make range MIN=minimum MAX=maximum INC=increment TRI=#trials ROWS=#rows COLS=#columns > output.txt``` then using the provided plotting tool ```$ ./plot.py output.txt``` 
 
 ## Progress
 - [x] source code

@@ -44,13 +44,13 @@ int main(int argc, char const *argv[])
 
     desc.add_options()
         // Option 'row-number' and 'r' are equivalent.
-        ("row-count,r", po::value<int>(&rowCount)->default_value(100), "The number of rows")
+        ("row-count,r", po::value<int>(&rowCount)->default_value(10), "The number of rows")
         // Option 'col-number' and 'c' are equivalent.
-        ("col-count,c", po::value<int>(&colCount)->default_value(100), "The number of columns")
+        ("col-count,c", po::value<int>(&colCount)->default_value(10), "The number of columns")
         // Option 'density' and 'd' are equivalent.
         ("density,d", po::value<double>(&density)->default_value(0.5), "The density of grid")
         // Option 'trial-number' and 'n' are equivalent.
-        ("trial-count,n", po::value<int>(&triCount)->default_value(1000), "The number of trials");
+        ("trial-count,n", po::value<int>(&triCount)->default_value(100), "The number of trials");
 
     po::variables_map vm;
     po::store(po::parse_command_line(argc,argv,desc), vm);
