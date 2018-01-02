@@ -25,7 +25,9 @@ Initially this will only be for 2D grids. Once this is working and tested I will
 		1. #rows = 10
 		2. #columns = 10
 		3. density = 0.5
-		4. #trials = 100
+		4. #trials = 100.
+
+	For a full list and description of command line options as well as their default values  run ```$ ./percolate -h''' or ```$ ./percolate --help'''.
 
 	2. To run for a range of densities run: ```$ make range MIN=minimum MAX=maximum INC=increment TRI=#trials ROWS=#rows COLS=#columns```  
 

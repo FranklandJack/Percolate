@@ -50,11 +50,20 @@ int main(int argc, char const *argv[])
         // Option 'density' and 'd' are equivalent.
         ("density,d", po::value<double>(&density)->default_value(0.5), "The density of grid")
         // Option 'trial-number' and 'n' are equivalent.
-        ("trial-count,n", po::value<int>(&triCount)->default_value(100), "The number of trials");
+        ("trial-count,n", po::value<int>(&triCount)->default_value(100), "The number of trials")
+        // Option 'help' and 'h' are equivalent.
+        ("help,h", "produce help message");
 
     po::variables_map vm;
     po::store(po::parse_command_line(argc,argv,desc), vm);
     po::notify(vm);
+
+    // If the user asks for help display it then exit.
+    if(vm.count("help"))
+    {
+        cout << desc << "\n";
+        return 1;
+    }
 
 
     /*************************************************************************************************************************
